@@ -1,16 +1,10 @@
-import express from 'express'
+import express from 'express';
+import router from './routes';
 
 const app: express.Application = express();
 
-app.use(express.json())
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  const users: Array<object> = [
-    { nome: 'Murilo', idade: 21 },
-    { nome: 'Marcela', idade: 16 },
-  ];
-
-  return res.json(users);
-});
+app.use(router);
 
 export default app;
