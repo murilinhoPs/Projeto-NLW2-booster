@@ -1,8 +1,8 @@
-import express from 'express';
+import express from 'express'
 
 const app: express.Application = express();
 
-app.use(express.json());
+app.use(express.json())
 
 app.get('/', (req, res) => {
   const users: Array<object> = [
