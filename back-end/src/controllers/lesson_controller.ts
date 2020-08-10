@@ -23,16 +23,16 @@ export default class LessonController {
     // para que se der erro, ele cancela tudo
     const trx = await db.transaction();
 
-    const insertedUsersId = await trx('users').insert({
-      name,
-      avatar,
-      whatsapp,
-      bio,
-    });
-
-    const user_id: number = insertedUsersId[0];
-
     try {
+      const insertedUsersId = await trx('users').insert({
+        name,
+        avatar,
+        whatsapp,
+        bio,
+      });
+
+      const user_id: number = insertedUsersId[0];
+
       const insertedLessonsIds = await trx('lessons').insert({
         subject,
         cost,
@@ -41,14 +41,16 @@ export default class LessonController {
 
       const lesson_id: number = insertedLessonsIds[0];
 
-      const lessonSchedule = schedule.map((item: ScheduleItem) => {
-        return {
-          lesson_id,
-          week_day: item.week_day,
-          from: ConvertHourToMin(item.from),
-          to: ConvertHourToMin(item.to),
-        };
-      });
+      const lessonSchedule: object = schedule.map(
+        (item: ScheduleItem) => {
+          return {
+            lesson_id,
+            week_day: item.week_day,
+            from: ConvertHourToMin(item.from),
+            to: ConvertHourToMin(item.to),
+          };
+        }
+      );
 
       await trx('lesson_schedule').insert(lessonSchedule);
 
